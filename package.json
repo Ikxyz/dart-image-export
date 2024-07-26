@@ -1,0 +1,36 @@
+{
+	"name": "dart-export",
+	"engines": {
+		"node": "18"
+	},
+	"version": "0.0.14",
+	"description": "export dart folders",
+	"main": "bin/index.js",
+	"scripts": {
+		"start": "node bin/index.js",
+		"serve": "nodemon src/index.ts",
+		"deploy": "git add . ; git commit ; git push ; npm publish ; npm version patch",
+		"build": "tsc",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"bin": {
+		"dart-export": "./bin/index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Ikxyz/dart-export.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Ikxyz/dart-export.git/issues"
+	},
+	"homepage": "https://github.com/Ikxyz/dart-export.git",
+	"keywords": [
+		"dart"
+	],
+	"author": "ikxyz <jointtask.ng@gmail.com> (https://github.com/ikxyz)",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^18.11.9"
+	},
+	"dependencies": {}
+}
