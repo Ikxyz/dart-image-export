@@ -1,14 +1,14 @@
 {
-	"name": "dart-export",
+	"name": "dart-image-export",
 	"engines": {
 		"node": "18"
 	},
 	"version": "0.0.14",
-	"description": "export dart folders",
+	"description": "export images in dart folders",
 	"main": "bin/index.js",
 	"scripts": {
 		"start": "node bin/index.js",
-		"serve": "nodemon src/index.ts",
+		"dev": "nodemon src/index.ts",
 		"deploy": "git add . ; git commit ; git push ; npm publish ; npm version patch",
 		"build": "tsc",
 		"test": "echo \"Error: no test specified\" && exit 1"

@@ -1,6 +1,6 @@
-# Export Folder
+# Export All Images In a Flutter Project
 
-## Helps export all dart files in a directory recursively
+## Helps export all image files in a directory recursively
 
 ### How to use
 
@@ -8,7 +8,7 @@
 
 ```js
 
-    npm install -g dart-export
+    npm install -g dart-image-export
 
 ```
 
@@ -16,6 +16,6 @@
 
 ```js
 
-    dart-export /** path to directory **/
+    dart-image-export /** path to directory **/
 
 ```
