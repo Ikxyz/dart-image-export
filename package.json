@@ -18,12 +18,12 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Ikxyz/dart-export.git"
+		"url": "https://github.com/Ikxyz/dart-image-export.git"
 	},
 	"bugs": {
-		"url": "https://github.com/Ikxyz/dart-export.git/issues"
+		"url": "https://github.com/Ikxyz/dart-image-export.git/issues"
 	},
-	"homepage": "https://github.com/Ikxyz/dart-export.git",
+	"homepage": "https://github.com/Ikxyz/dart-image-export.git",
 	"keywords": [
 		"dart"
 	],
