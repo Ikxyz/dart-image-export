@@ -43,6 +43,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = __importDefault(require("fs"));
 var version = require("../package.json").version;
 var image_extensions = ['png', 'jpg', 'jpeg', 'svg'];
+var ignorePath = ['node_modules', '.git', 'coverage',
+    '.DS_Store', 'bin', '.vscode'];
 var fs = fs_1.default.promises;
 var doesFileNeedChange = function (newFilePath, content) {
     try {
@@ -53,51 +55,53 @@ var doesFileNeedChange = function (newFilePath, content) {
     }
 };
 var exportAll = function (path, force) { return __awaiter(void 0, void 0, void 0, function () {
-    var dir, fileName, length, files, i, stat, exportFile, imageType, fileExtension, getImageVariableName, newFilePath, content, className, classContent;
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var dir, pathName, length, files, i, stat, exportFile, imageType, fileExtension, getImageVariableName, newFilePath, content, className, classContent;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0: return [4 /*yield*/, fs.readdir(path)];
             case 1:
-                dir = _b.sent();
-                fileName = path.split('/').pop();
+                dir = _a.sent();
+                pathName = path.split('/').pop();
                 length = dir.length;
                 files = [];
+                if (ignorePath.includes(pathName !== null && pathName !== void 0 ? pathName : '')) {
+                    return [2 /*return*/];
+                }
                 i = 0;
-                _b.label = 2;
+                _a.label = 2;
             case 2:
                 if (!(i < length)) return [3 /*break*/, 7];
                 return [4 /*yield*/, fs.stat(path + '/' + dir[i])];
             case 3:
-                stat = _b.sent();
+                stat = _a.sent();
                 if (!stat.isDirectory()) return [3 /*break*/, 5];
                 return [4 /*yield*/, exportAll(path + '/' + dir[i], force)];
             case 4:
-                exportFile = _b.sent();
+                exportFile = _a.sent();
                 if (exportFile) {
                     files.push(exportFile);
                 }
-                _b.label = 5;
+                _a.label = 5;
             case 5:
                 imageType = dir[i].split('.').pop();
                 if (imageType && image_extensions.includes(imageType)) {
-                    console.log('exporting image ', dir[i], path + '/' + dir[i]);
+                    console.log('exporting image ', pathName, dir[i], path + '/' + dir[i]);
                     files.push(path + '/' + dir[i]);
                 }
-                _b.label = 6;
+                _a.label = 6;
             case 6:
                 i++;
                 return [3 /*break*/, 2];
             case 7:
                 if (files.length == 0) {
-                    console.log("No files to export in ", path);
+                    // console.log("No files to export in ", path);
                     return [2 /*return*/];
                 }
                 fileExtension = '.dart';
                 getImageVariableName = function (file) { var _a, _b; return (_b = (_a = file.split('/').pop()) === null || _a === void 0 ? void 0 : _a.split('.')[0]) !== null && _b !== void 0 ? _b : ''; };
-                newFilePath = "".concat(path, "/_").concat(fileName, "Files").concat(fileExtension);
+                newFilePath = "".concat(path, "/_").concat(pathName, "Files").concat(fileExtension);
                 content = files.map(function (e) { return "static const String ".concat(camelCase(getImageVariableName(e)), " = \"").concat(e, "\";\n"); }).join('');
-                className = capitalize((_a = path.split('/').pop()) !== null && _a !== void 0 ? _a : '');
+                className = capitalize(pathName !== null && pathName !== void 0 ? pathName : '');
                 classContent = "\nclass Local".concat(className, " {\n").concat(content, "\n}");
                 if (doesFileNeedChange(newFilePath, content) === false) {
                     // console.log("No change required");
@@ -105,9 +109,9 @@ var exportAll = function (path, force) { return __awaiter(void 0, void 0, void 0
                 }
                 return [4 /*yield*/, fs_1.default.writeFile(newFilePath, classContent, function (_) { return _; })];
             case 8:
-                _b.sent();
+                _a.sent();
                 console.log('exported --> ', newFilePath);
-                return [2 /*return*/, "./".concat(fileName, "/_").concat(fileName, "Files").concat(fileExtension)];
+                return [2 /*return*/, "./".concat(pathName, "/_").concat(pathName, "Files").concat(fileExtension)];
         }
     });
 }); };
@@ -146,5 +150,5 @@ var capitalize = function (str) {
 };
 statExport();
 function camelCase(str) {
-    return str.charAt(0).toLowerCase() + str.slice(1);
+    return str.charAt(0).toLowerCase() + str.slice(1).replace(/[-_](.)/g, function (_, c) { return c.toUpperCase(); });
 }
