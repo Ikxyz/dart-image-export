@@ -122,5 +122,5 @@ const capitalize = (str: string) => {
 
 statExport();
 function camelCase(str: string) {
-    return str.charAt(0).toLowerCase() + str.slice(1).replace('-', '_');
+    return str.charAt(0).toLowerCase() + str.slice(1).replace(/[-_](.)/g, (_, c) => c.toUpperCase());
 }
