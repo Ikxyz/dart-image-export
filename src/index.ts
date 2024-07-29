@@ -4,6 +4,9 @@ const { version } = require("../package.json");
 
 const image_extensions = ['png', 'jpg', 'jpeg', 'svg'];
 
+const ignorePath = ['node_modules', '.git', 'coverage',
+    '.DS_Store', 'bin', '.vscode'];
+
 const fs = _fs.promises;
 
 
@@ -20,11 +23,16 @@ const exportAll = async (path: string, force: string): Promise<string | undefine
 
     const dir = await fs.readdir(path);
 
-    const fileName = path.split('/').pop();
+    const pathName = path.split('/').pop();
 
     const length = dir.length;
 
     const files: Array<string> = [];
+    if (ignorePath.includes(pathName ?? '')) {
+        return;
+    }
+
+    // console.log("*** Path Name ***", pathName);
 
 
     for (let i = 0; i < length; i++) {
@@ -42,25 +50,25 @@ const exportAll = async (path: string, force: string): Promise<string | undefine
         }
         const imageType = dir[i].split('.').pop();
         if (imageType && image_extensions.includes(imageType)) {
-            console.log('exporting image ', dir[i], path + '/' + dir[i]);
+            console.log('exporting image ', pathName, dir[i], path + '/' + dir[i]);
             files.push(path + '/' + dir[i]);
         }
 
     }
 
     if (files.length == 0) {
-        console.log("No files to export in ", path);
+        // console.log("No files to export in ", path);
         return;
     }
 
     const fileExtension = '.dart';
     const getImageVariableName = (file: string) => file.split('/').pop()?.split('.')[0] ?? '';
-    const newFilePath = `${path}/_${fileName}Files${fileExtension}`;
+    const newFilePath = `${path}/_${pathName}Files${fileExtension}`;
 
     const content = files.map((e) => `static const String ${camelCase(getImageVariableName(e))} = "${e}";\n`).join('');
 
 
-    const className = capitalize(path.split('/').pop() ?? '');
+    const className = capitalize(pathName ?? '');
 
     const classContent = `
 class Local${className} {
@@ -75,7 +83,7 @@ ${content}
 
     console.log('exported --> ', newFilePath);
 
-    return `./${fileName}/_${fileName}Files${fileExtension}`;
+    return `./${pathName}/_${pathName}Files${fileExtension}`;
 }
 
 const statExport = async () => {
@@ -114,5 +122,5 @@ const capitalize = (str: string) => {
 
 statExport();
 function camelCase(str: string) {
-    return str.charAt(0).toLowerCase() + str.slice(1);
+    return str.charAt(0).toLowerCase() + str.slice(1).replace('-', '_');
 }

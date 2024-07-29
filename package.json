@@ -3,13 +3,13 @@
 	"engines": {
 		"node": "18"
 	},
-	"version": "0.0.17",
+	"version": "0.0.18",
 	"description": "export images in dart folders",
 	"main": "bin/index.js",
 	"scripts": {
 		"start": "node bin/index.js",
-		"dev": "nodemon src/index.ts",
-		"deploy": "git add . ; git commit ; git push ; npm publish ; npm version patch",
+		"dev": " nodemon src/index.ts",
+		"deploy": "pn build ; git add . ; git commit ; git push ; npm publish ; npm version patch",
 		"build": "tsc",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
