@@ -3,7 +3,7 @@
 	"engines": {
 		"node": "18"
 	},
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"description": "export images in dart folders",
 	"main": "bin/index.js",
 	"scripts": {
